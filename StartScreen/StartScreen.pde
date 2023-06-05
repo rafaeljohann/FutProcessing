@@ -1,6 +1,8 @@
 ArrayList<TEXTBOX> textboxes = new ArrayList<TEXTBOX>();
 TEXTBOX playerOneInput, playerTwoInput;
 int colorText = color(0, 0, 0);
+PImage trofeu;
+int totalGols = 10;
 
 Player player = new Player();
 Player player2 = new Player();
@@ -11,6 +13,7 @@ int score = 0;
 int score2 = 0;
 int state = 0;
 boolean startGame;
+boolean endGame;
 
 void setup() {
     background(255, 255, 255);
@@ -20,6 +23,8 @@ void setup() {
     startScreen();
     textboxes.add(playerOneInput);
     textboxes.add(playerTwoInput);
+    trofeu = loadImage("./img/trofeu.jpg");
+
     
     player.setup();
     player.xBat=width/4;
@@ -32,6 +37,7 @@ void setup() {
 }
 
 void startScreen() {
+    
     textSize (40);
     fill(0);
     text("FutProcessing!", (width - textWidth("FutProcessing!")) / 2, 39);
@@ -58,16 +64,19 @@ void draw() {
        colorText = color(255, 255, 255); 
     } else {
       colorText = color(0, 0, 0);
-    }
+    } 
     
     if (startGame) {
       game();
+    } else if (endGame){
+      endGame();
     } else {
+      background(255);
+      startScreen();
       delay(120);
       fill(colorText);
       textSize(30);
       text("Pressione ENTER para começar", (width - textWidth("Pressione ENTER para começar")) / 2, 450);
-      
       for (TEXTBOX t : textboxes) {
         t.DRAW();
       }
@@ -90,7 +99,7 @@ void mousePressed() {
       t.PRESSED(mouseX, mouseY);
    }
 }
-
+ 
 void keyPressed() {
    for (TEXTBOX t : textboxes) {
      if (!startGame) {
@@ -145,6 +154,27 @@ void keyPressed() {
     ball.xBall = width/2;
     ball.yBall = height/2;
   }
+  
+   if(!startGame && endGame && key=='b'){
+
+      score = 0;
+      score2 = 0;
+      endGame = false;
+      player.setup();
+      player.xBat=width/4;
+      player.yBat=height/2;
+      player2.setup();
+      player2.xBat = 400;
+      player.xBat=1200;
+      player.yBat=height/2;
+      ball.setup();
+      playerOneInput.Text = "";
+      playerTwoInput.Text = "";
+      
+  }
+  
+  
+  
 }
 
   void keyReleased() {
@@ -241,4 +271,44 @@ void game() {
     if (player.yBat <= 0) {
         player.yBatFart = 1;
     }
+    if (score == totalGols || score2 == totalGols){
+      endGame = true;
+      startGame = false;
+    }
+}
+
+
+void endGame(){
+  
+    background (255);
+   
+    textSize (40);
+    fill(0);
+    
+    if (score == totalGols){
+      image(trofeu, width-1000, 1, 500, 500);
+      text("Jogador " + playerOneInput.Text + " Vencedor!!" , width-950, 550);
+      text("RESULTADO", (width/2)-20, 600);
+      text(playerOneInput.Text + " " + score + " X " + score2 + " " + playerTwoInput.Text,  (width/2) - 70, 650);
+      
+      fill(0);
+      textSize (15);
+      text("Pressione B para reiniciar!", (width/2) + 300, 830);
+      textSize(15);
+      text("Pressione R se o disco estiver fora da tela ou preso.",(width/2) + 300, 850);
+
+    }else{
+      image(trofeu, width-1000, 1, 500, 500);
+      text("Jogador  " + playerTwoInput.Text + " Vencedor!!" , width-950, 850);
+      text("RESULTADO", (width/2)-20, 600);
+      text(playerOneInput.Text + " " + score + " X " + score2 + " " + playerTwoInput.Text,  (width/2) - 90, 650);
+      
+      fill(0);
+      textSize (15);
+      text("Pressione B para reiniciar!", width/2, 830);
+      textSize(15);
+      text("Pressione R se o disco estiver fora da tela ou preso.", width/2, 850);
+
+    }
+
 }

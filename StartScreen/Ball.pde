@@ -1,4 +1,5 @@
 class Ball
+
 {
   float xBall;
   float yBall;
@@ -17,7 +18,7 @@ class Ball
     void draw() {
    
     xBall = xBall + xRet;
-    yBall = yBall + yRet;
+    yBall = yBall + yRet; 
     xRet = xRet * 0.993;
     yRet = yRet * 0.993;
     

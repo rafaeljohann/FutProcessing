@@ -2,7 +2,7 @@ class Player
 { 
     float xBat;
     float yBat; 
-    float bBat = 40;
+    float bBat = 40; 
     float hBat = 40; 
     float xBatFart = 0;
     float yBatFart = 0;

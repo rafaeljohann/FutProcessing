@@ -17,7 +17,7 @@ boolean endGame;
 
 void setup() {
     background(255, 255, 255);
-    size(1600, 900);
+    size(1024, 760);
     playerOneInput = new TEXTBOX("NomePlayer1", true, 650, 560, 300, 35);
     playerTwoInput = new TEXTBOX("NomePlayer2", true, 650, 640, 300, 35);
     startScreen();
@@ -30,8 +30,8 @@ void setup() {
     player.xBat=width/4;
     player.yBat=height/2;
     player2.setup();
-    player2.xBat = 400;
-    player.xBat=1200;
+    player2.xBat = 256;
+    player.xBat= 768;
     player.yBat=height/2;
     ball.setup();
 }
@@ -161,20 +161,16 @@ void keyPressed() {
       score2 = 0;
       endGame = false;
       player.setup();
-      player.xBat=width/4;
-      player.yBat=height/2;
+      player.xBat = width/4;
+      player.yBat = height/2;
       player2.setup();
-      player2.xBat = 400;
-      player.xBat=1200;
-      player.yBat=height/2;
+      player2.xBat = 256;
+      player.xBat = 768;
+      player.yBat = height/2;
       ball.setup();
       playerOneInput.Text = "";
       playerTwoInput.Text = "";
-      
   }
-  
-  
-  
 }
 
   void keyReleased() {
@@ -217,8 +213,8 @@ void game() {
     strokeWeight(1);
     fill(255);
     stroke(0);
-    rect(0, height/2 - 100, 20, 200);
-    rect(1580, height/2 - 100, 20, 200);
+    rect(0, height/2 - 75, 20, 150);
+    rect(width - 20, height/2 - 75, 20, 150);
 
     player.fill = color(235, 8, 8);
     player.draw();

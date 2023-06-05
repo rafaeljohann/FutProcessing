@@ -39,23 +39,23 @@ class Ball
      yRet = -yRet;
    }
     
-    else if (yBall > 350 && yBall < 550  && xBall >= 1600) {
+    else if (yBall > 309 && yBall < 459  && xBall >= width) {
       stroke(0);
       rect(87, 237, 0, 0);
       stroke(255);
       println("Gol!");
       score = score +1;
-      xBall = 1250;
-      yBall = 450;
+      xBall = width/2;
+      yBall = height/2;
       xRet = 0;
       yRet = 0;
     }
     
-    else if (yBall > 350 && yBall < 550 && xBall <= 0) {
+    else if (yBall > 309 && yBall < 459 && xBall <= 0) {
       println("Gol!");
       score2 = score2 +1;
-      xBall = 450;
-      yBall = 450;
+      xBall = height/2;
+      yBall = height/2;
       xRet = 0;
       yRet = 0;
     }

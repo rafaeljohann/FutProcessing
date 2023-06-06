@@ -2,7 +2,7 @@ ArrayList<TEXTBOX> textboxes = new ArrayList<TEXTBOX>();
 TEXTBOX playerOneInput, playerTwoInput;
 int colorText = color(0, 0, 0);
 PImage trofeu;
-int totalGols = 10;
+int totalGols = 1;
 
 Player player = new Player();
 Player player2 = new Player();
@@ -282,28 +282,28 @@ void endGame(){
     fill(0);
     
     if (score == totalGols){
-      image(trofeu, width-1000, 1, 500, 500);
-      text("Jogador " + playerOneInput.Text + " Vencedor!!" , width-950, 550);
+      image(trofeu, width/2 - 250, 1, 500, 500);
+      text("Jogador1 " + playerOneInput.Text + " Vencedor!!" , width/2 - 250, 550);
       text("RESULTADO", (width/2)-20, 600);
       text(playerOneInput.Text + " " + score + " X " + score2 + " " + playerTwoInput.Text,  (width/2) - 70, 650);
       
       fill(0);
       textSize (15);
-      text("Pressione B para reiniciar!", (width/2) + 300, 830);
+      text("Pressione B para reiniciar!", (width/2) + 200, 500);
       textSize(15);
-      text("Pressione R se o disco estiver fora da tela ou preso.",(width/2) + 300, 850);
+      text("Pressione R se o disco estiver fora da tela ou preso.",(width/2) + 200, 550);
 
     }else{
-      image(trofeu, width-1000, 1, 500, 500);
-      text("Jogador  " + playerTwoInput.Text + " Vencedor!!" , width-950, 850);
+      image(trofeu, width/2 - 250, 1, 500, 500);
+      text("Jogador  " + playerTwoInput.Text + " Vencedor!!" , width/2 - 250, 850);
       text("RESULTADO", (width/2)-20, 600);
       text(playerOneInput.Text + " " + score + " X " + score2 + " " + playerTwoInput.Text,  (width/2) - 90, 650);
       
       fill(0);
       textSize (15);
-      text("Pressione B para reiniciar!", width/2, 830);
+      text("Pressione B para reiniciar!", width/2, 500);
       textSize(15);
-      text("Pressione R se o disco estiver fora da tela ou preso.", width/2, 850);
+      text("Pressione R se o disco estiver fora da tela ou preso.", width/2, 550);
 
     }
 

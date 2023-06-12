@@ -2,7 +2,8 @@ ArrayList<TEXTBOX> textboxes = new ArrayList<TEXTBOX>();
 TEXTBOX playerOneInput, playerTwoInput;
 int colorText = color(0, 0, 0);
 PImage trofeu;
-int totalGols = 1;
+int totalGols = 10;
+PImage img;
 
 Player player = new Player();
 Player player2 = new Player();
@@ -14,17 +15,18 @@ int score2 = 0;
 int state = 0;
 boolean startGame;
 boolean endGame;
+boolean inputsBlank;
 
 void setup() {
     background(255, 255, 255);
+    img = loadImage( "./img/gol.png" );
     size(1024, 760);
-    playerOneInput = new TEXTBOX("NomePlayer1", true, 650, 560, 300, 35);
-    playerTwoInput = new TEXTBOX("NomePlayer2", true, 650, 640, 300, 35);
+    playerOneInput = new TEXTBOX("NomePlayer1", true, width/2 - 150, 460, 300, 35);
+    playerTwoInput = new TEXTBOX("NomePlayer2", true, width/2 - 150, 540, 300, 35);
     startScreen();
     textboxes.add(playerOneInput);
     textboxes.add(playerTwoInput);
     trofeu = loadImage("./img/trofeu.jpg");
-
     
     player.setup();
     player.xBat=width/4;
@@ -44,19 +46,20 @@ void startScreen() {
     fill(0);
     
     textSize(20);
-    text("Digite o nome do player 1:", (width - textWidth("Digite o nome do player 1:")) / 2, 550);
+    text("O primeiro a marcar 10 gols vence!", (width - textWidth("O primeiro a marcar 10 gols vence!")) / 2, 75);
+    text("Digite o nome do player 1:", (width - textWidth("Digite o nome do player 1:")) / 2, 450);
     
     textSize(20);
-    text("Digite o nome do player 2:", (width - textWidth("Digite o nome do player 2:")) / 2, 630);
+    text("Digite o nome do player 2:", (width - textWidth("Digite o nome do player 2:")) / 2, 530);
     
     textSize(20);
-    text("Teclas Player 1:", (width - textWidth("Teclas Player 1:")) / 2, 730);
-    text("W S A D", (width - textWidth("W S A D")) / 2, 750);
-    text("Teclas Player 2:", (width - textWidth("Teclas Player 2:")) / 2, 790);
-    drawArrow(760, 800, 20, 90);
-    drawArrow(780, 820, 20, 270);
-    drawArrow(815, 810, 20, 180);
-    drawArrow(825, 810, 20, 360);
+    text("Teclas Player 1:", (width - textWidth("Teclas Player 1:")) / 2, 630);
+    text("W S A D", (width - textWidth("W S A D")) / 2, 650);
+    text("Teclas Player 2:", (width - textWidth("Teclas Player 2:")) / 2, 690);
+    drawArrow(560, 700, 20, 90);
+    drawArrow(480, 720, 20, 270);
+    drawArrow(515, 710, 20, 180);
+    drawArrow(525, 710, 20, 360);
 }
 
 void draw() {
@@ -76,10 +79,16 @@ void draw() {
       delay(120);
       fill(colorText);
       textSize(30);
-      text("Pressione ENTER para começar", (width - textWidth("Pressione ENTER para começar")) / 2, 450);
+      text("Pressione ENTER para começar", (width - textWidth("Pressione ENTER para começar")) / 2, 350);
       for (TEXTBOX t : textboxes) {
         t.DRAW();
       }
+      image(img, -50, 1, 350, 350);
+    }
+    
+    
+    if (inputsBlank) {
+      text("Digite o nome dos players para prosseguir", (width - textWidth("Digite o nome dos players para prosseguir")) / 2, 400);
     }
 
 }
@@ -110,8 +119,9 @@ void keyPressed() {
    if ((int)keyCode == (int)ENTER) {
      if (playerOneInput.Text == "" || playerTwoInput.Text == "") {
        textSize(20);
-        text("Digite o nome dos players para prosseguir", (width - textWidth("Digite o nome dos players para prosseguir")) / 2, 500);
+       inputsBlank = true;
      } else {
+        inputsBlank = false;
         startGame = true;
      }
   }
@@ -156,7 +166,6 @@ void keyPressed() {
   }
   
    if(!startGame && endGame && key=='b'){
-
       score = 0;
       score2 = 0;
       endGame = false;
@@ -195,8 +204,7 @@ void keyPressed() {
 void game() {
     background(46, 202, 29);
 
-    for (linha=0; linha < height; linha = linha + 20)
-    {
+    for (linha=0; linha < height; linha = linha + 20) {
         fill(255, 255, 255);
         stroke(255);
         strokeWeight(3);
@@ -228,7 +236,7 @@ void game() {
     textSize(30);
     text(playerOneInput.Text, width*0.25, 70);
     text(score,width*0.25,30);
-    text(score2,1200,30);
+    text(score2,width*0.75,30);
     text(playerTwoInput.Text, width*0.75, 70);
     
     textSize(18);
@@ -291,7 +299,7 @@ void endGame(){
       textSize (15);
       text("Pressione B para reiniciar!", (width/2) + 200, 500);
       textSize(15);
-      text("Pressione R se o disco estiver fora da tela ou preso.",(width/2) + 200, 550);
+      text("Pressione R se a bola estiver fora da tela ou preso.",(width/2) + 200, 550);
 
     }else{
       image(trofeu, width/2 - 250, 1, 500, 500);
@@ -303,8 +311,7 @@ void endGame(){
       textSize (15);
       text("Pressione B para reiniciar!", width/2, 500);
       textSize(15);
-      text("Pressione R se o disco estiver fora da tela ou preso.", width/2, 550);
+      text("Pressione R se a bola estiver fora da tela ou preso.", width/2, 550);
 
     }
-
 }

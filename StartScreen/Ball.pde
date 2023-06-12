@@ -3,8 +3,8 @@ class Ball
 {
   float xBall;
   float yBall;
-  float bBall = 25;
-  float hBall = 25;
+  float bBall = 20;
+  float hBall = 20;
   float fart = 0;
   float xRet = fart;
   float yRet = fart;
@@ -44,8 +44,8 @@ class Ball
       rect(87, 237, 0, 0);
       stroke(255);
       println("Gol!");
-      score = score +1;
-      xBall = width/2;
+      score = score + 1;
+      xBall = width/2 + 200;
       yBall = height/2;
       xRet = 0;
       yRet = 0;
@@ -54,7 +54,7 @@ class Ball
     else if (yBall > 309 && yBall < 459 && xBall <= 0) {
       println("Gol!");
       score2 = score2 +1;
-      xBall = height/2;
+      xBall = width/2 - 200;
       yBall = height/2;
       xRet = 0;
       yRet = 0;

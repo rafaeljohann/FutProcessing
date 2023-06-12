@@ -2,8 +2,8 @@ class Player
 { 
     float xBat;
     float yBat; 
-    float bBat = 40; 
-    float hBat = 40; 
+    float bBat = 30; 
+    float hBat = 30; 
     float xBatFart = 0;
     float yBatFart = 0;
     float fartenWSAD = 7; 

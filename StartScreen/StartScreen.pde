@@ -29,12 +29,12 @@ void setup() {
     trofeu = loadImage("./img/trofeu.jpg");
     
     player.setup();
-    player.xBat=width/4;
-    player.yBat=height/2;
+    player.x = width/4;
+    player.y = height/2;
     player2.setup();
-    player2.xBat = 256;
-    player.xBat= 768;
-    player.yBat=height/2;
+    player2.x = 256;
+    player.x = 768;
+    player.y = height/2;
     ball.setup();
 }
 
@@ -123,46 +123,21 @@ void keyPressed() {
      } else {
         inputsBlank = false;
         startGame = true;
+        
+        for (TEXTBOX t : textboxes) {
+           t.selected = false; 
+        }
+        
      }
   }
    
-  if (key=='w') {
-    player2.yBatFart = -player2.fartenWSAD;
-  }
-
-  if (key=='s') {
-    player2.yBatFart = player2.fartenWSAD;
-  }
-  
-  if (key=='a') {
-    player2.xBatFart = -player2.fartenWSAD;
-  }
-
-  if (key=='d') {
-    player2.xBatFart = player2.fartenWSAD;
-  }      
-        
-  if (key==CODED) {
-    if (keyCode==UP) {
-      player.yBatFart = -player.fartenWSAD;
-    }
-
-    if (keyCode==DOWN) {
-      player.yBatFart = player.fartenWSAD;
-    }
-  
-    if (keyCode==LEFT) {
-      player.xBatFart = -player.fartenWSAD;
-    }
-
-    if (keyCode==RIGHT) {
-      player.xBatFart = player.fartenWSAD;
-    }
-  }
+  calculatePositionPlayers(key);
         
   if (key=='r') {
-    ball.xBall = width/2;
-    ball.yBall = height/2;
+    ball.x = width/2;
+    ball.y = height/2;
+    ball.xRet = 0;
+    ball.yRet = 0;
   }
   
    if(!startGame && endGame && key=='b'){
@@ -170,33 +145,72 @@ void keyPressed() {
       score2 = 0;
       endGame = false;
       player.setup();
-      player.xBat = width/4;
-      player.yBat = height/2;
+      player.x = width/4;
+      player.y = height/2;
       player2.setup();
-      player2.xBat = 256;
-      player.xBat = 768;
-      player.yBat = height/2;
+      player2.x = 256;
+      player.x = 768;
+      player.y = height/2;
       ball.setup();
+      ball.xRet = 0;
+      ball.yRet = 0;
       playerOneInput.Text = "";
       playerTwoInput.Text = "";
   }
 }
 
+void calculatePositionPlayers(int keyPressed) {
+     if (keyPressed=='w') {
+    player2.ySteps = -player2.qtdPixelsSteps;
+  }
+
+  if (keyPressed=='s') {
+    player2.ySteps = player2.qtdPixelsSteps;
+  }
+  
+  if (keyPressed=='a') {
+    player2.xSteps = -player2.qtdPixelsSteps;
+  }
+
+  if (keyPressed=='d') {
+    player2.xSteps = player2.qtdPixelsSteps;
+  }      
+        
+  if (keyPressed==CODED) {
+    if (keyCode==UP) {
+      player.ySteps = -player.qtdPixelsSteps;
+    }
+
+    if (keyCode==DOWN) {
+      player.ySteps = player.qtdPixelsSteps;
+    }
+  
+    if (keyCode==LEFT) {
+      player.xSteps = -player.qtdPixelsSteps;
+    }
+
+    if (keyCode==RIGHT) {
+      player.xSteps = player.qtdPixelsSteps;
+    }
+  }
+  
+}
+
   void keyReleased() {
     if(key=='w' || key=='s') {
-      player2.yBatFart = 0;
+      player2.ySteps = 0;
     }
   
     if (key=='a' || key=='d') {
-      player2.xBatFart = 0;
+      player2.xSteps = 0;
     }
   
     if (key==CODED) {
       if (keyCode==UP || keyCode==DOWN) {
-        player.yBatFart = 0;
+        player.ySteps = 0;
       }
       if (keyCode==LEFT || keyCode==RIGHT) {
-        player.xBatFart = 0;
+        player.xSteps = 0;
       }
     }
   }
@@ -230,8 +244,8 @@ void game() {
     player2.draw();
     fill(255);
     ball.draw();
-    player.collision(ball);
-    player2.collision(ball);
+    player.collisionPreview(ball);
+    player2.collisionPreview(ball);
 
     textSize(30);
     text(playerOneInput.Text, width*0.25, 70);
@@ -241,43 +255,49 @@ void game() {
     
     textSize(18);
     fill(0);
-    text("Pressione R para recomeçar, caso a bola ultrapasse as linhas do gramado", (width - textWidth("Pressione R para recomeçar, caso a bola ultrapasse as linhas do gramado")) / 2, 100);
+    text("Pressione R para recomeçar, caso a bola fique presa nas linhas do gramado", (width - textWidth("Pressione R para recomeçar, caso a bola fique presa nas linhas do gramado")) / 2, 100);
     fill(255);
     
-    if (player2.xBat >= width/2) {
-      player2.xBatFart = -1;
-    }
+    returnPlayerToCorrectSide();
+    
 
-    if (player2.xBat <= 0) {
-        player2.xBatFart = 1;
-    }
-
-    if (player2.yBat >= height) {
-        player2.yBatFart = -1;
-    }
-
-    if (player2.yBat <= 0) {
-        player2.yBatFart = 1;
-    }
-
-    if (player.xBat <= width/2) {
-        player.xBatFart = 1;
-    }
-
-    if (player.xBat >= width) {
-        player.xBatFart = -1;
-    }
-
-    if (player.yBat >= height) {
-        player.yBatFart = -1;
-    }
-
-    if (player.yBat <= 0) {
-        player.yBatFart = 1;
-    }
     if (score == totalGols || score2 == totalGols){
       endGame = true;
       startGame = false;
+    }
+}
+
+void returnPlayerToCorrectSide() {
+      if (player2.x >= width/2) {
+      player2.xSteps = -1;
+    }
+
+    if (player2.x <= 0) {
+        player2.xSteps = 1;
+    }
+
+    if (player2.y >= height) {
+        player2.ySteps = -1;
+    }
+
+    if (player2.y <= 0) {
+        player2.ySteps = 1;
+    }
+
+    if (player.x <= width/2) {
+        player.xSteps = 1;
+    }
+
+    if (player.x >= width) {
+        player.xSteps = -1;
+    }
+
+    if (player.y >= height) {
+        player.ySteps = -1;
+    }
+
+    if (player.y <= 0) {
+        player.ySteps = 1;
     }
 }
 
@@ -288,30 +308,22 @@ void endGame(){
    
     textSize (40);
     fill(0);
+    TEXTBOX textboxPlayerVencedor;
+    
+    image(trofeu, width/2 - 250, 1, 500, 500);
     
     if (score == totalGols){
-      image(trofeu, width/2 - 250, 1, 500, 500);
-      text("Jogador1 " + playerOneInput.Text + " Vencedor!!" , width/2 - 250, 550);
-      text("RESULTADO", (width/2)-20, 600);
-      text(playerOneInput.Text + " " + score + " X " + score2 + " " + playerTwoInput.Text,  (width/2) - 70, 650);
-      
-      fill(0);
-      textSize (15);
-      text("Pressione B para reiniciar!", (width/2) + 200, 500);
-      textSize(15);
-      text("Pressione R se a bola estiver fora da tela ou preso.",(width/2) + 200, 550);
+      textboxPlayerVencedor = playerOneInput;
 
     }else{
-      image(trofeu, width/2 - 250, 1, 500, 500);
-      text("Jogador  " + playerTwoInput.Text + " Vencedor!!" , width/2 - 250, 850);
-      text("RESULTADO", (width/2)-20, 600);
-      text(playerOneInput.Text + " " + score + " X " + score2 + " " + playerTwoInput.Text,  (width/2) - 90, 650);
-      
-      fill(0);
-      textSize (15);
-      text("Pressione B para reiniciar!", width/2, 500);
-      textSize(15);
-      text("Pressione R se a bola estiver fora da tela ou preso.", width/2, 550);
-
+      textboxPlayerVencedor = playerTwoInput;
     }
+    
+    text("Jogador " + textboxPlayerVencedor.Text + " Vencedor!!" , (width - textWidth("Jogador " + textboxPlayerVencedor.Text + " Vencedor!!")) / 2, 550);
+    text("RESULTADO", (width - textWidth("RESULTADO")) / 2, 650);
+    text(playerOneInput.Text + " " + score + " X " + score2 + " " + playerTwoInput.Text,  (width - textWidth(playerOneInput.Text + " " + score + " X " + score2 + " " + playerTwoInput.Text)) / 2, 700);
+      
+    fill(0);
+    textSize (15);
+    text("Pressione B para iniciar novamente!", (width - textWidth("Pressione B para iniciar novamente!")) / 2, 730);
 }
